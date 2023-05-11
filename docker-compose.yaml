@@ -1,0 +1,24 @@
+services:
+  pgdb:
+    image: postgres:15
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+    ports:
+      - "5432:5432"
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=root@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=root
+    ports:
+      - "8080:80"
+    depends_on:
+      - pgdb
+  customDocker:
+    image: good_books
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - pgadmin
